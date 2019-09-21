@@ -9,4 +9,6 @@ Glide
 Constraint layout
 Lifecycle viewmodels
 
-![Rawg search results](images/search.png)
+<p align="center">
+<img src="/images/search.png" width="400">
+  </p>
