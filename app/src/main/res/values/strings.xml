@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Rawg</string>
+    <string name="search_game_edit_hint">game name</string>
+</resources>
