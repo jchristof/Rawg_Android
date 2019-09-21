@@ -11,7 +11,13 @@ import com.theobviousexit.rawg.R
 import com.theobviousexit.rawg.RawgResponse
 
 
-class SearchResultsAdapter(private val searchResponse: RawgResponse): RecyclerView.Adapter<GameSearchResultViewHolder>()  {
+class SearchResultsAdapter: RecyclerView.Adapter<GameSearchResultViewHolder>()  {
+
+    var searchResponse: RawgResponse = RawgResponse()
+    set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameSearchResultViewHolder {
         val searchResultLayout = LayoutInflater.from(parent.context)
@@ -19,7 +25,7 @@ class SearchResultsAdapter(private val searchResponse: RawgResponse): RecyclerVi
         return GameSearchResultViewHolder(searchResultLayout)
     }
 
-    override fun getItemCount()= searchResponse.results.size
+    override fun getItemCount() = searchResponse.results.size
 
     override fun onBindViewHolder(holder: GameSearchResultViewHolder, position: Int) {
         val imageView = holder.layout.findViewById(R.id.image) as ImageView
@@ -31,6 +37,4 @@ class SearchResultsAdapter(private val searchResponse: RawgResponse): RecyclerVi
     }
 }
 
-class GameSearchResultViewHolder(val layout: View) : RecyclerView.ViewHolder(layout){
-
-}
+class GameSearchResultViewHolder(val layout: View) : RecyclerView.ViewHolder(layout)

@@ -11,5 +11,5 @@ The app's initial functionality is implemented using:
 * Lifecycle viewmodels
 
 <p align="center">
-<img src="/images/search.png" width="400">
-  </p>
+    <img src="./images/search.png" width="400">
+</p>

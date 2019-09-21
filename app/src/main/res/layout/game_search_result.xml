@@ -20,7 +20,7 @@
         app:layout_constraintTop_toBottomOf="@+id/image" />
 
     <ImageView
-        android:id="@+id/platforms"
+        android:id="@+id/platformXbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -30,92 +30,92 @@
         app:srcCompat="@drawable/ic_xboxone" />
 
     <ImageView
-        android:id="@+id/platforms2"
+        android:id="@+id/playformPlaystation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/platforms"
+        app:layout_constraintStart_toEndOf="@+id/platformXbox"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/ic_playstation" />
 
     <ImageView
-        android:id="@+id/platforms3"
+        android:id="@+id/platformSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/platforms2"
+        app:layout_constraintStart_toEndOf="@+id/playformPlaystation"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/ic_switch" />
 
     <ImageView
-        android:id="@+id/platforms4"
+        android:id="@+id/platformMobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/platforms3"
+        app:layout_constraintStart_toEndOf="@+id/platformSwitch"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/ic_mobile" />
 
     <ImageView
-        android:id="@+id/platforms5"
+        android:id="@+id/platformAtari"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/platforms4"
+        app:layout_constraintStart_toEndOf="@+id/platformMobile"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/ic_atari" />
 
     <ImageView
-        android:id="@+id/platforms6"
+        android:id="@+id/platformWindows"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/platforms5"
+        app:layout_constraintStart_toEndOf="@+id/platformAtari"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/ic_windows" />
 
     <ImageView
-        android:id="@+id/platforms7"
+        android:id="@+id/platformAmiga"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/platforms6"
+        app:layout_constraintStart_toEndOf="@+id/platformWindows"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/ic_amiga" />
 
     <ImageView
-        android:id="@+id/platforms8"
+        android:id="@+id/platformSega"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/platforms7"
+        app:layout_constraintStart_toEndOf="@+id/platformAmiga"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/ic_sega" />
 
     <ImageView
-        android:id="@+id/platforms9"
+        android:id="@+id/platformAndroid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/platforms8"
+        app:layout_constraintStart_toEndOf="@+id/platformSega"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/ic_android" />
 
     <ImageView
-        android:id="@+id/platforms10"
+        android:id="@+id/platformLinux"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/platforms9"
+        app:layout_constraintStart_toEndOf="@+id/platformAndroid"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/ic_linux" />
 
@@ -146,6 +146,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/platforms" />
+        app:layout_constraintTop_toBottomOf="@+id/platformXbox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
