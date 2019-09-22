@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.theobviousexit.rawg.R
 import com.theobviousexit.rawg.RawgResponse
 
-
 class SearchResultsAdapter: RecyclerView.Adapter<GameSearchResultViewHolder>()  {
 
     var searchResponse: RawgResponse = RawgResponse()
