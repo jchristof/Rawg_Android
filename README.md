@@ -1,4 +1,4 @@
-# Rawg_Android
+# Rawg.io for Android
 
 Quick implementation of the [rawg.io](rawg.io) game database search app for android.
 The app's initial functionality is implemented using:
