@@ -3,9 +3,7 @@ package com.theobviousexit.rawg.ui.main
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -23,6 +21,10 @@ class MainFragment : Fragment() {
 
     private lateinit var recycler: RecyclerView
     private val viewModel by viewModel<SearchViewModel>()
+
+    fun search(query:String){
+        viewModel.search(query)
+    }
 
     companion object {
         fun newInstance() = MainFragment()
@@ -49,7 +51,9 @@ class MainFragment : Fragment() {
             }
         }
 
-        recycler = activity?.findViewById<RecyclerView>(R.id.games_recycler) ?: return
+
+
+        recycler = activity?.findViewById(R.id.games_recycler) ?: return
         recycler.layoutManager = LinearLayoutManager(activity)
         recycler.adapter = SearchResultsAdapter()
 
@@ -65,10 +69,16 @@ class MainFragment : Fragment() {
                 state: RecyclerView.State
             ) {
                 super.getItemOffsets(outRect, view, parent, state)
-                outRect.top = 16
-                outRect.bottom = 16
+                outRect.top = 8
+                outRect.left = 4
+                outRect.bottom = 8
+                outRect.right = 4
             }
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu, menu)
+    }
 }
