@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.print.PrintHelper.ORIENTATION_PORTRAIT
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.theobviousexit.rawg.R
@@ -37,7 +39,12 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         recycler = activity?.findViewById(R.id.games_recycler) ?: return
-        recycler.layoutManager = LinearLayoutManager(activity)
+
+        when(resources.configuration.orientation != ORIENTATION_PORTRAIT) {
+            true -> recycler.layoutManager = LinearLayoutManager(activity)
+            false -> recycler.layoutManager = GridLayoutManager(activity, 2)
+        }
+
         recycler.adapter = SearchResultsAdapter()
 
         viewModel.rawgResponse.observe(this, Observer<RawgResponse>{ response ->
