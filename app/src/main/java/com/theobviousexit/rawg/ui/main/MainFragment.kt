@@ -65,5 +65,7 @@ class MainFragment : Fragment() {
                 outRect.right = 4
             }
         })
+
+        viewModel.bestOfYear()
     }
 }

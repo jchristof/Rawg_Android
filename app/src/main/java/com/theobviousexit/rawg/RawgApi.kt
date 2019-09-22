@@ -11,6 +11,10 @@ interface RawgApi {
     @Headers("User-Agent: com.theobviousexit.rawg")
     @GET("games?page_size=100")
     suspend fun getGames(@Query("search") name: String): RawgResponse
+
+    @Headers("User-Agent: com.theobviousexit.rawg")
+    @GET("games?best_of_year=true&page_size=100")
+    suspend fun bestOfYear():RawgResponse
 }
 
 //games search

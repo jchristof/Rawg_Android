@@ -21,4 +21,13 @@ class SearchViewModel(val retrofit: Retrofit) : ViewModel() {
             rawgResponse.postValue(games)
         }
     }
+
+    fun bestOfYear(){
+        GlobalScope.launch {
+            val rawgService = retrofit.create(RawgApi::class.java)
+            val games = rawgService.bestOfYear()
+
+            rawgResponse.postValue(games)
+        }
+    }
 }
