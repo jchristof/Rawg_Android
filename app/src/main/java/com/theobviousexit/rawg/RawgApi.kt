@@ -22,7 +22,8 @@ data class Result(
     @SerializedName("clip") val clip: Clip? = null,
     @SerializedName("background_image") val backgroundImage: String = "",
     @SerializedName("metacritic") val metacritic:Long = 0,
-    @SerializedName("short_screenshots") val shortScreenshots:List<ShortScreenshot> = emptyList()
+    @SerializedName("short_screenshots") val shortScreenshots:List<ShortScreenshot> = emptyList(),
+    @SerializedName("platforms") val platforms:List<PlatformObj> = emptyList()
 
 ): Parcelable
 
@@ -44,6 +45,18 @@ data class Clips(
     @SerializedName("320") val small:String = "",
     @SerializedName("640") val medium:String = "",
     @SerializedName("full") val full:String = ""
+):Parcelable
+
+@Parcelize
+data class PlatformObj(
+    @SerializedName("platform") val platform:Platform?=null
+):Parcelable
+
+@Parcelize
+data class Platform(
+    @SerializedName("id") val id:Int = 0,
+    @SerializedName("name") val name:String = "",
+    @SerializedName("slug") val slug:String = ""
 ):Parcelable
 
 @Parcelize

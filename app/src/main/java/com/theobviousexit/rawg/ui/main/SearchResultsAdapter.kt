@@ -33,6 +33,20 @@ class SearchResultsAdapter: RecyclerView.Adapter<GameSearchResultViewHolder>()  
         Glide.with(holder.layout).load(searchResults.backgroundImage).into(imageView)
         val text = holder.layout.findViewById<TextView>(R.id.game_name)
         text.text = searchResults.name
+
+        val metacritic = holder.layout.findViewById<TextView>(R.id.metacritic)
+        metacritic.text = searchResults.metacritic.toString()
+
+        holder.layout.findViewById<ImageView>(R.id.platformXbox)?.visibility = if(searchResults.platforms.mapNotNull{t->t.platform?.slug}.find{ t->t.contains("xbox")} != null) View.VISIBLE else View.GONE
+        holder.layout.findViewById<ImageView>(R.id.playformPlaystation)?.visibility = if(searchResults.platforms.mapNotNull{t->t.platform?.slug}.find{ t->t.contains("playstation")} != null) View.VISIBLE else View.GONE
+        holder.layout.findViewById<ImageView>(R.id.platformSwitch)?.visibility = if(searchResults.platforms.mapNotNull{t->t.platform?.slug}.find{ t->t.contains("switch")} != null) View.VISIBLE else View.GONE
+        holder.layout.findViewById<ImageView>(R.id.platformMobile)?.visibility = if(searchResults.platforms.mapNotNull{t->t.platform?.slug}.find{ t->t.contains("mobile")} != null) View.VISIBLE else View.GONE
+        holder.layout.findViewById<ImageView>(R.id.platformAtari)?.visibility = if(searchResults.platforms.mapNotNull{t->t.platform?.slug}.find{ t->t.contains("atari")} != null) View.VISIBLE else View.GONE
+        holder.layout.findViewById<ImageView>(R.id.platformWindows)?.visibility = if(searchResults.platforms.mapNotNull{t->t.platform?.slug}.find{ t->t.contains("pc")} != null) View.VISIBLE else View.GONE
+        holder.layout.findViewById<ImageView>(R.id.platformAmiga)?.visibility = if(searchResults.platforms.mapNotNull{t->t.platform?.slug}.find{ t->t.contains("amiga")} != null) View.VISIBLE else View.GONE
+        holder.layout.findViewById<ImageView>(R.id.platformSega)?.visibility = if(searchResults.platforms.mapNotNull{t->t.platform?.slug}.find{ t->t.contains("sega")} != null) View.VISIBLE else View.GONE
+        holder.layout.findViewById<ImageView>(R.id.platformAndroid)?.visibility = if(searchResults.platforms.mapNotNull{t->t.platform?.slug}.find{ t->t.contains("android")} != null) View.VISIBLE else View.GONE
+        holder.layout.findViewById<ImageView>(R.id.platformLinux)?.visibility = if(searchResults.platforms.mapNotNull{t->t.platform?.slug}.find{ t->t.contains("linux")} != null) View.VISIBLE else View.GONE
     }
 }
 
