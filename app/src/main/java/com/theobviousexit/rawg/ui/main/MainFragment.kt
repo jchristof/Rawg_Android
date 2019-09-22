@@ -11,6 +11,7 @@ import com.theobviousexit.rawg.R
 import com.theobviousexit.rawg.RawgResponse
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class MainFragment : Fragment() {
 
     private lateinit var recycler: RecyclerView

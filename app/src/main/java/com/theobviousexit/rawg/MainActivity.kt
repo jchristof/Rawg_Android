@@ -1,9 +1,12 @@
 package com.theobviousexit.rawg
 
+import android.app.Activity
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import com.theobviousexit.rawg.ui.main.MainFragment
@@ -42,6 +45,13 @@ class MainActivity : AppCompatActivity() {
             this.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     (supportFragmentManager.findFragmentById(R.id.container) as? MainFragment)?.search(query!!)
+
+                    val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    var view = getCurrentFocus()
+                    if (view == null)
+                        view = View(this@MainActivity)
+
+                    imm.hideSoftInputFromWindow(view.windowToken, 0)
                     return true
                 }
 
