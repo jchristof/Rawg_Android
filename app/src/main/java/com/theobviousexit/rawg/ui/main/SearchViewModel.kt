@@ -13,10 +13,10 @@ class SearchViewModel(val retrofit: Retrofit) : ViewModel() {
 
     val rawgResponse = MutableLiveData<RawgResponse>()
 
-    fun search(searchTerm: String) {
+    fun search(searchTerm: String, page:Int, page_size:Int) {
         GlobalScope.launch {
             val rawgService = retrofit.create(RawgApi::class.java)
-            val games = rawgService.getGames(TextUtils.htmlEncode(searchTerm))
+            val games = rawgService.getGames(TextUtils.htmlEncode(searchTerm), page, page_size)
 
             rawgResponse.postValue(games)
         }

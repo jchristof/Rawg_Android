@@ -20,7 +20,8 @@ class MainFragment : Fragment() {
     private val viewModel by viewModel<SearchViewModel>()
 
     fun search(query:String){
-        viewModel.search(query)
+        (recycler.adapter as SearchResultsAdapter).clear()
+        viewModel.search(query, 1, 50)
         recycler.scrollToPosition(0)
     }
 
@@ -45,10 +46,10 @@ class MainFragment : Fragment() {
             false -> recycler.layoutManager = GridLayoutManager(activity, 2)
         }
 
-        recycler.adapter = SearchResultsAdapter()
+        recycler.adapter = SearchResultsAdapter(viewModel)
 
         viewModel.rawgResponse.observe(this, Observer<RawgResponse>{ response ->
-            (recycler.adapter as SearchResultsAdapter).searchResponse = response
+            (recycler.adapter as SearchResultsAdapter).add(response)
         })
 
         recycler.addItemDecoration(object : RecyclerView.ItemDecoration() {

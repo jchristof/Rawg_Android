@@ -6,15 +6,26 @@ import kotlinx.android.parcel.Parcelize
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
+import android.net.UrlQuerySanitizer
+import com.theobviousexit.rawg.ui.main.SearchViewModel
+
 
 interface RawgApi {
     @Headers("User-Agent: com.theobviousexit.rawg")
-    @GET("games?page_size=100")
-    suspend fun getGames(@Query("search") name: String): RawgResponse
+    @GET("games?")
+    suspend fun getGames(
+        @Query("search") name: String,
+        @Query("page") page:Int,
+        @Query("page_size") page_size:Int
+    ): RawgResponse
 
     @Headers("User-Agent: com.theobviousexit.rawg")
     @GET("games?best_of_year=true&page_size=100")
     suspend fun bestOfYear():RawgResponse
+
+    //https://api.rawg.io/api/games?last_30_days
+    //https://api.rawg.io/api/games?this_week
+
 }
 
 //games search
@@ -67,8 +78,27 @@ data class Platform(
 data class RawgResponse(
     val next: String? = null,
     val previous:String? = null,
-    val results: List<Result> = arrayListOf()
-) : Parcelable
+    val results: List<Result> = arrayListOf(),
+
+
+    var loadStarted:Boolean = false
+) : Parcelable{
+    fun loadNext(viewModel:SearchViewModel) {
+        if(loadStarted)
+            return
+
+        val sanitizer = UrlQuerySanitizer(next)
+        val page = sanitizer.getValue("page").toInt()
+        val pageSize = sanitizer.getValue("page_size").toInt()
+        val search = sanitizer.getValue("search")
+
+        loadStarted = true
+        viewModel.search(search, page, pageSize)
+
+    }
+
+    fun hasMoreResults() = next != null
+}
 
 //game details
 @Parcelize
