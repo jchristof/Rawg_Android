@@ -64,7 +64,13 @@ class SearchViewModel(private val retrofit: Retrofit) : IGameSearchProvider, Vie
             val rawgService = retrofit.create(RawgApi::class.java)
             val games = rawgService.bestOfYear()
 
-            gameList.addAll(games.results)
+            lastResponse = games
+
+            withContext(Dispatchers.Main){
+                gameList.addAll(games.results)
+                notifyGameListChanged(Range(0,0), Range(0,0), false)
+                loadStarted = false
+            }
         }
     }
 }

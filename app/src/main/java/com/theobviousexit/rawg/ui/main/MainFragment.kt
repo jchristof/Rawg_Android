@@ -22,7 +22,7 @@ class MainFragment : Fragment() {
 
     fun search(query:String){
         viewModel.clear()
-        viewModel.search(query, 1, 3)
+        viewModel.search(query, 1, 50)
         recycler.scrollToPosition(0)
     }
 
