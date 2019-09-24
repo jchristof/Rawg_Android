@@ -67,6 +67,8 @@ class SearchResultsAdapter(private val viewModel: SearchViewModel): RecyclerView
                     text.text = searchResults.name
 
                     val metacritic = holder.layout.findViewById<TextView>(R.id.metacritic)
+
+                    metacritic.visibility = if(searchResults.metacritic == 0L) View.GONE else View.VISIBLE
                     metacritic.text = searchResults.metacritic.toString()
 
 

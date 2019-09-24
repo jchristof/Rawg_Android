@@ -32,19 +32,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleIntent(intent: Intent) {
 
-        if (Intent.ACTION_SEARCH == intent.action) {
-            val query = intent.getStringExtra(SearchManager.QUERY)
-            (supportFragmentManager.findFragmentById(R.id.container) as? MainFragment)?.search(query)
-        }
+        if (Intent.ACTION_SEARCH != intent.action)
+            return
+
+        val query = intent.getStringExtra(SearchManager.QUERY) ?: return
+
+        (supportFragmentManager.findFragmentById(R.id.container) as? MainFragment)?.search(query)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
 
         (menu.findItem(R.id.search).actionView as SearchView).apply {
-            this.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+            this.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    (supportFragmentManager.findFragmentById(R.id.container) as? MainFragment)?.search(query!!)
+                    (supportFragmentManager.findFragmentById(R.id.container) as? MainFragment)?.search(
+                        query!!
+                    )
 
                     val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                     var view = getCurrentFocus()
@@ -52,6 +56,8 @@ class MainActivity : AppCompatActivity() {
                         view = View(this@MainActivity)
 
                     imm.hideSoftInputFromWindow(view.windowToken, 0)
+                    view.clearFocus();
+
                     return true
                 }
 

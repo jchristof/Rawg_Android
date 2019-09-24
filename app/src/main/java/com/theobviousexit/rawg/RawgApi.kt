@@ -20,7 +20,7 @@ interface RawgApi {
     ): RawgResponse
 
     @Headers("User-Agent: com.theobviousexit.rawg")
-    @GET("games?best_of_year=true&page_size=100")
+    @GET("games?best_of_year=true&page_size=3")
     suspend fun bestOfYear():RawgResponse
 
     //https://api.rawg.io/api/games?last_30_days
@@ -87,14 +87,15 @@ data class RawgResponse(
         if(loadStarted)
             return
 
+        next ?: return
         val sanitizer = UrlQuerySanitizer(next)
-        val page = sanitizer.getValue("page").toInt()
-        val pageSize = sanitizer.getValue("page_size").toInt()
-        val search = sanitizer.getValue("search")
+
+        val page = sanitizer.getValue("page").toIntOrNull() ?: return
+        val pageSize = sanitizer.getValue("page_size").toIntOrNull() ?: return
+        val search = sanitizer.getValue("search") ?: return
 
         loadStarted = true
         viewModel.search(search, page, pageSize)
-
     }
 
     fun hasMoreResults() = next != null

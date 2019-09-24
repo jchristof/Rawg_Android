@@ -52,6 +52,9 @@ class MainFragment : Fragment() {
             (recycler.adapter as SearchResultsAdapter).add(response)
         })
 
+        if(savedInstanceState == null)
+            viewModel.bestOfYear()
+
         recycler.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
@@ -66,7 +69,5 @@ class MainFragment : Fragment() {
                 outRect.right = 4
             }
         })
-
-        viewModel.bestOfYear()
     }
 }
