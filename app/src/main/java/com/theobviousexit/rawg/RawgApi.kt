@@ -6,8 +6,6 @@ import kotlinx.android.parcel.Parcelize
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
-import android.net.UrlQuerySanitizer
-import com.theobviousexit.rawg.ui.main.SearchViewModel
 
 
 interface RawgApi {
@@ -15,13 +13,13 @@ interface RawgApi {
     @GET("games?")
     suspend fun getGames(
         @Query("search") name: String,
-        @Query("page") page:Int,
-        @Query("page_size") page_size:Int
+        @Query("page") page: Int,
+        @Query("page_size") page_size: Int
     ): RawgResponse
 
     @Headers("User-Agent: com.theobviousexit.rawg")
-    @GET("games?best_of_year=true&page_size=3")
-    suspend fun bestOfYear():RawgResponse
+    @GET("games?best_of_year=true&page_size=100")
+    suspend fun bestOfYear(): RawgResponse
 
     //https://api.rawg.io/api/games?last_30_days
     //https://api.rawg.io/api/games?this_week
@@ -33,84 +31,67 @@ interface RawgApi {
 data class Result(
     @SerializedName("name") val name: String = "",
     @SerializedName("slug") val slug: String = "",
-    @SerializedName("rating") val rating:String = "",
+    @SerializedName("rating") val rating: String = "",
     @SerializedName("clip") val clip: Clip? = null,
     @SerializedName("background_image") val backgroundImage: String = "",
-    @SerializedName("metacritic") val metacritic:Long = 0,
-    @SerializedName("short_screenshots") val shortScreenshots:List<ShortScreenshot> = emptyList(),
-    @SerializedName("platforms") val platforms:List<PlatformObj> = emptyList()
+    @SerializedName("metacritic") val metacritic: Long = 0,
+    @SerializedName("short_screenshots") val shortScreenshots: List<ShortScreenshot> = emptyList(),
+    @SerializedName("platforms") val platforms: List<PlatformObj> = emptyList()
 
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class ShortScreenshot(
-    @SerializedName("id") val id:Long = 0,
-    @SerializedName("image") val image:String = ""
-): Parcelable
+    @SerializedName("id") val id: Long = 0,
+    @SerializedName("image") val image: String = ""
+) : Parcelable
 
 @Parcelize
 data class Clip(
     @SerializedName("clip") val clip: String = "",
     @SerializedName("clips") val clips: Clips? = null,
-    @SerializedName("preview") val preview:String = ""
+    @SerializedName("preview") val preview: String = ""
 ) : Parcelable
 
 @Parcelize
 data class Clips(
-    @SerializedName("320") val small:String = "",
-    @SerializedName("640") val medium:String = "",
-    @SerializedName("full") val full:String = ""
-):Parcelable
+    @SerializedName("320") val small: String = "",
+    @SerializedName("640") val medium: String = "",
+    @SerializedName("full") val full: String = ""
+) : Parcelable
 
 @Parcelize
 data class PlatformObj(
-    @SerializedName("platform") val platform:Platform?=null
-):Parcelable
+    @SerializedName("platform") val platform: Platform? = null
+) : Parcelable
 
 @Parcelize
 data class Platform(
-    @SerializedName("id") val id:Int = 0,
-    @SerializedName("name") val name:String = "",
-    @SerializedName("slug") val slug:String = ""
-):Parcelable
+    @SerializedName("id") val id: Int = 0,
+    @SerializedName("name") val name: String = "",
+    @SerializedName("slug") val slug: String = ""
+) : Parcelable
 
 @Parcelize
 data class RawgResponse(
     val next: String? = null,
-    val previous:String? = null,
+    val previous: String? = null,
     val results: List<Result> = arrayListOf(),
 
 
-    var loadStarted:Boolean = false
-) : Parcelable{
-    fun loadNext(viewModel:SearchViewModel) {
-        if(loadStarted)
-            return
-
-        next ?: return
-        val sanitizer = UrlQuerySanitizer(next)
-
-        val page = sanitizer.getValue("page").toIntOrNull() ?: return
-        val pageSize = sanitizer.getValue("page_size").toIntOrNull() ?: return
-        val search = sanitizer.getValue("search") ?: return
-
-        loadStarted = true
-        viewModel.search(search, page, pageSize)
-    }
-
-    fun hasMoreResults() = next != null
-}
+    var loadStarted: Boolean = false
+) : Parcelable
 
 //game details
 @Parcelize
 data class GameDetailResult(
-    @SerializedName("id") val id:Long = 0,
+    @SerializedName("id") val id: Long = 0,
     @SerializedName("name") val name: String = "",
     @SerializedName("slug") val slug: String = "",
     @SerializedName("background_image") val backgroundImage: String = "",
-    @SerializedName("background_image_additional") val backgroundImageAdditional:String = "",
-    @SerializedName("description") val description:String = "",
-    @SerializedName("metacritic") val metacritic:Long = 0,
-    @SerializedName("saturated_color") val saturatedColor:String = "",
-    @SerializedName("dominant_color") val dominantColor:String = ""
-):Parcelable
+    @SerializedName("background_image_additional") val backgroundImageAdditional: String = "",
+    @SerializedName("description") val description: String = "",
+    @SerializedName("metacritic") val metacritic: Long = 0,
+    @SerializedName("saturated_color") val saturatedColor: String = "",
+    @SerializedName("dominant_color") val dominantColor: String = ""
+) : Parcelable

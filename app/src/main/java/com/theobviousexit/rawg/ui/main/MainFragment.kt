@@ -2,15 +2,15 @@ package com.theobviousexit.rawg.ui.main
 
 import android.graphics.Rect
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.print.PrintHelper.ORIENTATION_PORTRAIT
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.theobviousexit.rawg.R
-import com.theobviousexit.rawg.RawgResponse
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -18,10 +18,11 @@ class MainFragment : Fragment() {
 
     private lateinit var recycler: RecyclerView
     private val viewModel by viewModel<SearchViewModel>()
+    private lateinit var searchResultsAdapter:SearchResultsAdapter
 
     fun search(query:String){
-        (recycler.adapter as SearchResultsAdapter).clear()
-        viewModel.search(query, 1, 50)
+        viewModel.clear()
+        viewModel.search(query, 1, 3)
         recycler.scrollToPosition(0)
     }
 
@@ -46,11 +47,8 @@ class MainFragment : Fragment() {
             false -> recycler.layoutManager = GridLayoutManager(activity, 2)
         }
 
-        recycler.adapter = SearchResultsAdapter(viewModel)
-
-        viewModel.rawgResponse.observe(this, Observer<RawgResponse>{ response ->
-            (recycler.adapter as SearchResultsAdapter).add(response)
-        })
+        searchResultsAdapter = SearchResultsAdapter(viewModel)
+        recycler.adapter = searchResultsAdapter
 
         if(savedInstanceState == null)
             viewModel.bestOfYear()

@@ -8,27 +8,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.theobviousexit.rawg.IGameSearchProvider
 import com.theobviousexit.rawg.R
-import com.theobviousexit.rawg.RawgResponse
-import com.theobviousexit.rawg.Result
 import java.lang.Exception
 import java.lang.RuntimeException
 
-class SearchResultsAdapter(private val viewModel: SearchViewModel): RecyclerView.Adapter<SearchResultViewHolder>()  {
+class SearchResultsAdapter(private val gameSearchProvider:IGameSearchProvider): RecyclerView.Adapter<SearchResultViewHolder>()  {
 
-    private val results: ArrayList<Result> = arrayListOf()
-    private var lastResponse:RawgResponse = RawgResponse()
-
-    fun add(rawgResponse: RawgResponse) {
-        lastResponse = rawgResponse
-        results.addAll(rawgResponse.results)
-
-        notifyDataSetChanged()
-    }
-
-    fun clear(){
-        results.clear()
-        notifyDataSetChanged()
+    init{
+        gameSearchProvider.notifyGameListChanged = { added, removed, more ->
+            notifyDataSetChanged()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
@@ -44,12 +34,12 @@ class SearchResultsAdapter(private val viewModel: SearchViewModel): RecyclerView
         }
     }
 
-    override fun getItemCount() = results.size + if(lastResponse.hasMoreResults()) 1 else 0
+    override fun getItemCount() = gameSearchProvider.gameList.size + if(gameSearchProvider.hasMore()) 1 else 0
 
     override fun getItemViewType(position: Int):Int {
-        return if (position == results.size) {
-            if (results.size != 0 && lastResponse.hasMoreResults())
-                lastResponse.loadNext(viewModel)
+        return if (position == gameSearchProvider.gameList.size) {
+            if (gameSearchProvider.gameList.size != 0 && gameSearchProvider.hasMore())
+                gameSearchProvider.loadMore()
 
             R.layout.search_progress
         } else R.layout.game_search_result
@@ -61,7 +51,7 @@ class SearchResultsAdapter(private val viewModel: SearchViewModel): RecyclerView
                 try {
                     val imageView = holder.layout.findViewById(R.id.image) as ImageView
 
-                    val searchResults = results[position]
+                    val searchResults = gameSearchProvider.gameList[position]
                     Glide.with(holder.layout).load(searchResults.backgroundImage).into(imageView)
                     val text = holder.layout.findViewById<TextView>(R.id.game_name)
                     text.text = searchResults.name
