@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.theobviousexit.rawg.IGameSearchProvider
 import com.theobviousexit.rawg.R
+import com.theobviousexit.rawg.Result
 import java.lang.Exception
 import java.lang.RuntimeException
 
-class SearchResultsAdapter(private val gameSearchProvider:IGameSearchProvider): RecyclerView.Adapter<SearchResultViewHolder>()  {
+class SearchResultsAdapter(private val gameSearchProvider:IGameSearchProvider, private val onGameClicked:(game:Result)->Unit): RecyclerView.Adapter<SearchResultViewHolder>()  {
 
     init{
         gameSearchProvider.notifyGameListChanged = { added, removed, more ->
@@ -55,6 +56,12 @@ class SearchResultsAdapter(private val gameSearchProvider:IGameSearchProvider): 
                     Glide.with(holder.layout).load(searchResults.backgroundImage).into(imageView)
                     val text = holder.layout.findViewById<TextView>(R.id.game_name)
                     text.text = searchResults.name
+                    text.setOnClickListener(object:View.OnClickListener{
+                        override fun onClick(p0: View?) {
+                            onGameClicked(searchResults)
+                        }
+
+                    })
 
                     val metacritic = holder.layout.findViewById<TextView>(R.id.metacritic)
 
