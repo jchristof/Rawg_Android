@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.theobviousexit.rawg.IGameSearchProvider
 import com.theobviousexit.rawg.R
 import com.theobviousexit.rawg.Result
+import com.theobviousexit.rawg.media.MediaPlayerFactory
 import com.theobviousexit.rawg.media.MediaPlayerHolder
 import com.theobviousexit.rawg.media.PlayerState
 import java.lang.Exception
@@ -20,6 +21,7 @@ import java.lang.RuntimeException
 
 class SearchResultsAdapter(
     private val gameSearchProvider: IGameSearchProvider,
+    private val mediaPlayerFactory: MediaPlayerFactory,
     private val onGameClicked: (game: Result) -> Unit
 ) : RecyclerView.Adapter<SearchResultViewHolder>() {
 
@@ -64,7 +66,7 @@ class SearchResultsAdapter(
 
     override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
         when (holder) {
-            is GameSearchResultViewHolder -> holder.bind(gameSearchProvider, onGameClicked)
+            is GameSearchResultViewHolder -> holder.bind(gameSearchProvider, mediaPlayerFactory, onGameClicked)
             is GameSearchProgressViewHolder -> Unit
         }
 
@@ -82,6 +84,7 @@ class GameSearchResultViewHolder(layout: View) : SearchResultViewHolder(layout) 
 
     fun destroy() {
         playerHolder?.stop()
+        playerHolder?.release()
 
         imageView.postDelayed({
             imageView.visibility = View.VISIBLE
@@ -91,9 +94,9 @@ class GameSearchResultViewHolder(layout: View) : SearchResultViewHolder(layout) 
         }, 500)
     }
 
-    fun bind(gameSearchProvider: IGameSearchProvider, onGameClicked: (game: Result) -> Unit) {
+    fun bind(gameSearchProvider: IGameSearchProvider, mediaPlayerFactory:MediaPlayerFactory, onGameClicked: (game: Result) -> Unit) {
         try {
-            val context = layout.context
+
             imageView = layout.findViewById(R.id.image) as ImageView
 
             val searchResults = gameSearchProvider.gameList[position]
@@ -113,7 +116,7 @@ class GameSearchResultViewHolder(layout: View) : SearchResultViewHolder(layout) 
                     playVideoIcon.visibility = View.INVISIBLE
 
                     val state = PlayerState()
-                    playerHolder = MediaPlayerHolder(context, video, state)
+                    playerHolder = mediaPlayerFactory.getMediaPlayer(video, state)
                     playerHolder?.start(it) {
                         playerHolder?.release()
                         video.visibility = View.INVISIBLE

@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.theobviousexit.rawg.R
 import com.theobviousexit.rawg.Result
+import com.theobviousexit.rawg.media.MediaPlayerFactory
+import com.theobviousexit.rawg.media.MediaPlayerFactoryImpl
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -20,6 +22,7 @@ class SearchResultsFragment : Fragment() {
     private lateinit var recycler: RecyclerView
     private val viewModel by viewModel<SearchViewModel>()
     private lateinit var searchResultsAdapter:SearchResultsAdapter
+    private lateinit var mediaPlayerFactory: MediaPlayerFactory
 
     fun search(query:String){
         viewModel.clear()
@@ -46,13 +49,14 @@ class SearchResultsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         recycler = activity?.findViewById(R.id.games_recycler) ?: return
+        mediaPlayerFactory = MediaPlayerFactoryImpl(context!!)
 
         when(resources.configuration.orientation != ORIENTATION_PORTRAIT) {
             true -> recycler.layoutManager = LinearLayoutManager(activity)
             false -> recycler.layoutManager = GridLayoutManager(activity, 2)
         }
 
-        searchResultsAdapter = SearchResultsAdapter(viewModel, ::onGameClicked)
+        searchResultsAdapter = SearchResultsAdapter(viewModel, mediaPlayerFactory, ::onGameClicked)
         recycler.adapter = searchResultsAdapter
 
         if(savedInstanceState == null)
@@ -72,5 +76,11 @@ class SearchResultsFragment : Fragment() {
                 outRect.right = 4
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mediaPlayerFactory.destroy()
     }
 }
