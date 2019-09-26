@@ -1,6 +1,5 @@
 package com.theobviousexit.rawg.ui.main
 
-import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.exoplayer2.ui.PlayerView
 import com.theobviousexit.rawg.IGameSearchProvider
 import com.theobviousexit.rawg.R
 import com.theobviousexit.rawg.Result
 import com.theobviousexit.rawg.media.MediaPlayerFactory
-import com.theobviousexit.rawg.media.MediaPlayerHolder
+import com.theobviousexit.rawg.media.MediaPlayer
 import com.theobviousexit.rawg.media.PlayerState
 import java.lang.Exception
 import java.lang.RuntimeException
@@ -75,7 +76,7 @@ class SearchResultsAdapter(
 
 open class SearchResultViewHolder(val layout: View) : RecyclerView.ViewHolder(layout)
 class GameSearchResultViewHolder(layout: View) : SearchResultViewHolder(layout) {
-    private var playerHolder: MediaPlayerHolder? = null
+    private var player: MediaPlayer? = null
     private lateinit var imageView: ImageView
     private lateinit var video:PlayerView
     private lateinit var playVideoIcon:ImageView
@@ -83,24 +84,18 @@ class GameSearchResultViewHolder(layout: View) : SearchResultViewHolder(layout) 
     private var hasVideoContent = false
 
     fun destroy() {
-        playerHolder?.stop()
-        playerHolder?.release()
-
-        imageView.postDelayed({
-            imageView.visibility = View.VISIBLE
-            video.visibility = View.INVISIBLE
-            if(hasVideoContent)
-                playVideoIcon.visibility = View.VISIBLE
-        }, 500)
+        player?.stop()
+        player?.release()
     }
 
     fun bind(gameSearchProvider: IGameSearchProvider, mediaPlayerFactory:MediaPlayerFactory, onGameClicked: (game: Result) -> Unit) {
         try {
 
             imageView = layout.findViewById(R.id.image) as ImageView
+            layout.clipToOutline = true
 
             val searchResults = gameSearchProvider.gameList[position]
-            Glide.with(layout).load(searchResults.backgroundImage).into(imageView)
+            Glide.with(layout).load(searchResults.backgroundImage).transform(CenterCrop(), RoundedCorners(10)).into(imageView)
 
             video = layout.findViewById(R.id.video)
 
@@ -116,9 +111,9 @@ class GameSearchResultViewHolder(layout: View) : SearchResultViewHolder(layout) 
                     playVideoIcon.visibility = View.INVISIBLE
 
                     val state = PlayerState()
-                    playerHolder = mediaPlayerFactory.getMediaPlayer(video, state)
-                    playerHolder?.start(it) {
-                        playerHolder?.release()
+                    player = mediaPlayerFactory.getMediaPlayer(video, state)
+                    player?.start(it) {
+                        player?.release()
                         video.visibility = View.INVISIBLE
                         imageView.visibility = View.VISIBLE
                         playVideoIcon.visibility = View.VISIBLE
@@ -127,7 +122,9 @@ class GameSearchResultViewHolder(layout: View) : SearchResultViewHolder(layout) 
             }
 
             video.setOnClickListener {
-               // destroy()
+                video.post {
+                    destroy()
+                }
             }
 
             val text = layout.findViewById<TextView>(R.id.game_name)

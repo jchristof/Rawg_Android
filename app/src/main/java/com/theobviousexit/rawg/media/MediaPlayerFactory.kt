@@ -7,7 +7,7 @@ interface MediaPlayerFactory {
     fun getMediaPlayer(
         playerView: PlayerView,
         playerState: PlayerState
-    ): MediaPlayerHolder
+    ): MediaPlayer
 
     fun destroy()
 }

@@ -2,12 +2,12 @@ package com.theobviousexit.rawg.media
 
 import android.content.Context
 import android.net.Uri
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Player.STATE_ENDED
 import com.google.android.exoplayer2.Player.STATE_IDLE
-import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
@@ -18,21 +18,15 @@ data class PlayerState(
     var whenReady: Boolean = true
 )
 
-class MediaPlayerHolder(
-    val context: Context,
-    val playerView: PlayerView,
-    val playerState: PlayerState
+class MediaPlayer(
+    private val context: Context,
+    private val playerView: PlayerView,
+    private val playerState: PlayerState
 ) {
-    val player: ExoPlayer
-    val state = PlayerState()
-
-    init {
-        // Create the player instance.
-        player = ExoPlayerFactory.newSimpleInstance(context, DefaultTrackSelector())
-            .also {
-                playerView.player = it
-            }
-    }
+    val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, DefaultTrackSelector())
+        .also {
+            playerView.player = it
+        }
 
     fun start(clipUrl:String, onFinished:()->Unit) {
         with(playerState) {
@@ -41,9 +35,9 @@ class MediaPlayerHolder(
         }
         // Load media.
         player.prepare(buildMediaSource(Uri.parse(clipUrl)))
-        player.addListener(object : Player.DefaultEventListener() {
+        player.addListener(object : Player.EventListener {
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-                super.onPlayerStateChanged(playWhenReady, playbackState)
+               // super.onPlayerStateChanged(playWhenReady, playbackState)
 
                 if(playbackState == STATE_ENDED || playbackState == STATE_IDLE) {
                     onFinished()
@@ -53,15 +47,15 @@ class MediaPlayerHolder(
         })
     }
 
-    private fun buildMediaSource(uri: Uri): ExtractorMediaSource {
-        return ExtractorMediaSource.Factory(
+    private fun buildMediaSource(uri: Uri): ProgressiveMediaSource {
+        return ProgressiveMediaSource.Factory(
             DefaultDataSourceFactory(context, "videoapp")
         ).createMediaSource(uri)
     }
 
     fun stop() {
         with(player) {
-            with(state) {
+            with(playerState) {
                 position = currentPosition
                 window = currentWindowIndex
                 whenReady = playWhenReady
@@ -69,6 +63,7 @@ class MediaPlayerHolder(
 
             stop()
         }
+        playerView.player = null
     }
 
     fun release() {

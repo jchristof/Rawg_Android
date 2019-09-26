@@ -5,27 +5,27 @@ import com.google.android.exoplayer2.ui.PlayerView
 
 class MediaPlayerFactoryImpl(private val context: Context) : MediaPlayerFactory {
     override fun destroy() {
-        mediaPlayerHolder?.let{
+        mediaPlayer?.let{
             it.stop()
             it.release()
         }
 
-        mediaPlayerHolder = null
+        mediaPlayer = null
     }
 
-    private var mediaPlayerHolder:MediaPlayerHolder? = null
+    private var mediaPlayer:MediaPlayer? = null
 
     override fun getMediaPlayer(
         playerView: PlayerView,
         playerState: PlayerState
-    ): MediaPlayerHolder {
-        mediaPlayerHolder?.let{
+    ): MediaPlayer {
+        mediaPlayer?.let{
             it.stop()
             it.release()
         }
 
-        return MediaPlayerHolder(context, playerView, playerState).apply{
-            mediaPlayerHolder = this
+        return MediaPlayer(context, playerView, playerState).apply{
+            mediaPlayer = this
         }
     }
 }

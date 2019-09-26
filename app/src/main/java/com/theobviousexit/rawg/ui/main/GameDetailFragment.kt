@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.theobviousexit.rawg.R
-import com.theobviousexit.rawg.media.MediaPlayerHolder
+import com.theobviousexit.rawg.media.MediaPlayer
 import com.theobviousexit.rawg.media.PlayerState
 import kotlinx.android.synthetic.main.game_detail_fragment.*
 
 class GameDetailFragment : Fragment() {
 
-    lateinit var playerHolder: MediaPlayerHolder
+    lateinit var player: MediaPlayer
     val state = PlayerState()
 
     companion object {
@@ -29,22 +29,22 @@ class GameDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        playerHolder = MediaPlayerHolder(context!!, exoplayerview_activity_video, state)
+        player = MediaPlayer(context!!, exoplayerview_activity_video, state)
     }
 
     override fun onStart() {
         super.onStart()
-        playerHolder.start("",{})
+        player.start("",{})
     }
 
     override fun onStop() {
         super.onStop()
-        playerHolder.stop()
+        player.stop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        playerHolder.release()
+        player.release()
     }
 }
 
