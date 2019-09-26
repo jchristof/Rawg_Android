@@ -11,14 +11,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.theobviousexit.rawg.R
+import com.theobviousexit.rawg.Result
+import com.theobviousexit.rawg.media.MediaPlayerFactory
+import com.theobviousexit.rawg.media.MediaPlayerFactoryImpl
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MainFragment : Fragment() {
+class SearchResultsFragment : Fragment() {
 
     private lateinit var recycler: RecyclerView
     private val viewModel by viewModel<SearchViewModel>()
     private lateinit var searchResultsAdapter:SearchResultsAdapter
+    private lateinit var mediaPlayerFactory: MediaPlayerFactory
 
     fun search(query:String){
         viewModel.clear()
@@ -27,7 +31,7 @@ class MainFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = SearchResultsFragment()
     }
 
     override fun onCreateView(
@@ -37,17 +41,22 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
+    private fun onGameClicked(result:Result){
+        fragmentManager?.beginTransaction()?.replace(R.id.container, GameDetailFragment.newInstance())?.addToBackStack(null)?.commit()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         recycler = activity?.findViewById(R.id.games_recycler) ?: return
+        mediaPlayerFactory = MediaPlayerFactoryImpl(context!!)
 
         when(resources.configuration.orientation != ORIENTATION_PORTRAIT) {
             true -> recycler.layoutManager = LinearLayoutManager(activity)
             false -> recycler.layoutManager = GridLayoutManager(activity, 2)
         }
 
-        searchResultsAdapter = SearchResultsAdapter(viewModel)
+        searchResultsAdapter = SearchResultsAdapter(viewModel, mediaPlayerFactory, ::onGameClicked)
         recycler.adapter = searchResultsAdapter
 
         if(savedInstanceState == null)
@@ -67,5 +76,11 @@ class MainFragment : Fragment() {
                 outRect.right = 4
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mediaPlayerFactory.destroy()
     }
 }

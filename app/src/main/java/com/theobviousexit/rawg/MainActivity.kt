@@ -9,7 +9,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import com.theobviousexit.rawg.ui.main.MainFragment
+import com.theobviousexit.rawg.ui.main.SearchResultsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, SearchResultsFragment.newInstance())
                 .commitNow()
         }
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         val query = intent.getStringExtra(SearchManager.QUERY) ?: return
 
-        (supportFragmentManager.findFragmentById(R.id.container) as? MainFragment)?.search(query)
+        (supportFragmentManager.findFragmentById(R.id.container) as? SearchResultsFragment)?.search(query)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         (menu.findItem(R.id.search).actionView as SearchView).apply {
             this.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    (supportFragmentManager.findFragmentById(R.id.container) as? MainFragment)?.search(
+                    (supportFragmentManager.findFragmentById(R.id.container) as? SearchResultsFragment)?.search(
                         query!!
                     )
 

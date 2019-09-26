@@ -9,6 +9,7 @@ The app's initial functionality is implemented using:
 * Glide
 * Constraint layout
 * Lifecycle viewmodels
+* Exoplayer
 
 <p align="center">
     <img src="./images/search_portrait.png" width="400">
