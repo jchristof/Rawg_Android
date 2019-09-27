@@ -1,199 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="item"
+            type="com.theobviousexit.rawg.Result" />
+    </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/search_item_background"
-    >
-
-    <TextView
-        android:id="@+id/metacritic"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="95"
-        android:textColor="#ffffff"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/game_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/media_content" />
+        android:background="@drawable/search_item_background">
 
-    <ImageView
-        android:id="@+id/platformXbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/playformPlaystation"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/media_content"
-        app:srcCompat="@drawable/ic_xboxone" />
-
-    <ImageView
-        android:id="@+id/playformPlaystation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/platformSwitch"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/platformXbox"
-        app:layout_constraintTop_toBottomOf="@+id/media_content"
-        app:srcCompat="@drawable/ic_playstation" />
-
-    <ImageView
-        android:id="@+id/platformSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/platformMobile"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/playformPlaystation"
-        app:layout_constraintTop_toBottomOf="@+id/media_content"
-        app:srcCompat="@drawable/ic_switch" />
-
-    <ImageView
-        android:id="@+id/platformMobile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/platformAtari"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/platformSwitch"
-        app:layout_constraintTop_toBottomOf="@+id/media_content"
-        app:srcCompat="@drawable/ic_mobile" />
-
-    <ImageView
-        android:id="@+id/platformAtari"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/platformWindows"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/platformMobile"
-        app:layout_constraintTop_toBottomOf="@+id/media_content"
-        app:srcCompat="@drawable/ic_atari" />
-
-    <ImageView
-        android:id="@+id/platformWindows"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/platformAmiga"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/platformAtari"
-        app:layout_constraintTop_toBottomOf="@+id/media_content"
-        app:srcCompat="@drawable/ic_windows" />
-
-    <ImageView
-        android:id="@+id/platformAmiga"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/platformSega"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/platformWindows"
-        app:layout_constraintTop_toBottomOf="@+id/media_content"
-        app:srcCompat="@drawable/ic_amiga" />
-
-    <ImageView
-        android:id="@+id/platformSega"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/platformAndroid"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/platformAmiga"
-        app:layout_constraintTop_toBottomOf="@+id/media_content"
-        app:srcCompat="@drawable/ic_sega" />
-
-    <ImageView
-        android:id="@+id/platformAndroid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/platformLinux"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/platformSega"
-        app:layout_constraintTop_toBottomOf="@+id/media_content"
-        app:srcCompat="@drawable/ic_android" />
-
-    <ImageView
-        android:id="@+id/platformLinux"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/platformAndroid"
-        app:layout_constraintTop_toBottomOf="@+id/media_content"
-        app:srcCompat="@drawable/ic_linux" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/media_content"
-        android:layout_width="0dp"
-        android:layout_height="250dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <TextView
+            android:id="@+id/metacritic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@{item.metacritic}"
             android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:visibility="@{item.hasMetacriticRating}"
+            app:layout_constraintBottom_toTopOf="@+id/game_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@mipmap/ic_launcher" />
+            app:layout_constraintTop_toBottomOf="@+id/media_content" />
 
-        <com.google.android.exoplayer2.ui.PlayerView
-            android:id="@+id/video"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:visibility="invisible"
+        <ImageView
+            android:id="@+id/platformXbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:visibility="@{item.hasPlatform(`xbox`)}"
+            app:layout_constraintEnd_toStartOf="@+id/playformPlaystation"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/media_content"
+            app:srcCompat="@drawable/ic_xboxone" />
+
+        <ImageView
+            android:id="@+id/playformPlaystation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:visibility="@{item.hasPlatform(`playstation`)}"
+            app:layout_constraintEnd_toStartOf="@+id/platformSwitch"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/platformXbox"
+            app:layout_constraintTop_toBottomOf="@+id/media_content"
+            app:srcCompat="@drawable/ic_playstation" />
+
+        <ImageView
+            android:id="@+id/platformSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:visibility="@{item.hasPlatform(`switch`)}"
+            app:layout_constraintEnd_toStartOf="@+id/platformMobile"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/playformPlaystation"
+            app:layout_constraintTop_toBottomOf="@+id/media_content"
+            app:srcCompat="@drawable/ic_switch" />
+
+        <ImageView
+            android:id="@+id/platformMobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:visibility="@{item.hasPlatform(`mobile`)}"
+            app:layout_constraintEnd_toStartOf="@+id/platformAtari"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/platformSwitch"
+            app:layout_constraintTop_toBottomOf="@+id/media_content"
+            app:srcCompat="@drawable/ic_mobile" />
+
+        <ImageView
+            android:id="@+id/platformAtari"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:visibility="@{item.hasPlatform(`atari`)}"
+            app:layout_constraintEnd_toStartOf="@+id/platformWindows"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/platformMobile"
+            app:layout_constraintTop_toBottomOf="@+id/media_content"
+            app:srcCompat="@drawable/ic_atari" />
+
+        <ImageView
+            android:id="@+id/platformWindows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:visibility="@{item.hasPlatform(`pc`)}"
+            app:layout_constraintEnd_toStartOf="@+id/platformAmiga"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/platformAtari"
+            app:layout_constraintTop_toBottomOf="@+id/media_content"
+            app:srcCompat="@drawable/ic_windows" />
+
+        <ImageView
+            android:id="@+id/platformAmiga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:visibility="@{item.hasPlatform(`amiga`)}"
+            app:layout_constraintEnd_toStartOf="@+id/platformSega"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/platformWindows"
+            app:layout_constraintTop_toBottomOf="@+id/media_content"
+            app:srcCompat="@drawable/ic_amiga" />
+
+        <ImageView
+            android:id="@+id/platformSega"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:visibility="@{item.hasPlatform(`sega`)}"
+            app:layout_constraintEnd_toStartOf="@+id/platformAndroid"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/platformAmiga"
+            app:layout_constraintTop_toBottomOf="@+id/media_content"
+            app:srcCompat="@drawable/ic_sega" />
+
+        <ImageView
+            android:id="@+id/platformAndroid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:visibility="@{item.hasPlatform(`android`)}"
+            app:layout_constraintEnd_toStartOf="@+id/platformLinux"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/platformSega"
+            app:layout_constraintTop_toBottomOf="@+id/media_content"
+            app:srcCompat="@drawable/ic_android" />
+
+        <ImageView
+            android:id="@+id/platformLinux"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:visibility="@{item.hasPlatform(`linux`)}"
+            app:layout_constraintStart_toEndOf="@+id/platformAndroid"
+            app:layout_constraintTop_toBottomOf="@+id/media_content"
+            app:srcCompat="@drawable/ic_linux" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/media_content"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="#ffffff"
+                android:visibility="@{item.imageVisibility}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@mipmap/ic_launcher" />
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/video"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:visibility="@{item.videoVisibility}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:use_controller="false" />
+
+            <ImageView
+                android:id="@+id/play_video"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/ic_play_video"
+                android:visibility="@{item.playVideoIconVisibility}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/image" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/game_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:text="@{item.name}"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:use_controller="false" />
+            app:layout_constraintTop_toBottomOf="@+id/media_content" />
 
-        <ImageView
-            android:id="@+id/play_video"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_play_video"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/image" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/game_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:text="Game Name"
-        android:textColor="#ffffff"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/media_content" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

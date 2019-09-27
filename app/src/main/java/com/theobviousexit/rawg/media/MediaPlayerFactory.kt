@@ -6,8 +6,12 @@ interface MediaPlayerFactory {
 
     fun getMediaPlayer(
         playerView: PlayerView,
-        playerState: PlayerState
+        playerState: PlayerState,
+        canceledByUser:Boolean = false
     ): MediaPlayer
 
+    fun resume()
+    fun pause()
     fun destroy()
+
 }
