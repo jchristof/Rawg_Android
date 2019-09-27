@@ -58,7 +58,7 @@ class SearchResultsFragment : Fragment() {
             false -> recycler.layoutManager = GridLayoutManager(activity, 2)
         }
 
-        searchResultsAdapter = SearchResultsAdapter(viewModel, mediaPlayerFactory, ::onGameClicked)
+        searchResultsAdapter = SearchResultsAdapter(viewModel, mediaPlayerFactory, ::onGameClicked, this)
         recycler.adapter = searchResultsAdapter
 
         if (savedInstanceState == null)

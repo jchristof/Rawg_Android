@@ -4,6 +4,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -19,7 +21,8 @@ import com.theobviousexit.rawg.media.PlayerState
 class SearchResultsAdapter(
     private val gameSearchProvider: IGameSearchProvider,
     private val mediaPlayerFactory: MediaPlayerFactory,
-    private val onGameClicked: (game: Result) -> Unit
+    private val onGameClicked: (game: Result) -> Unit,
+    private val lifecycleOwner: LifecycleOwner
 ) : RecyclerView.Adapter<SearchResultViewHolder>() {
 
     init {
@@ -63,7 +66,7 @@ class SearchResultsAdapter(
     override fun onViewDetachedFromWindow(holder: SearchResultViewHolder) {
         super.onViewDetachedFromWindow(holder)
 
-        (holder as? GameSearchResultViewHolder)?.destroy()
+        (holder as? GameSearchResultViewHolder)?.viewDetachedFromWindow()
     }
 
     override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
@@ -71,7 +74,8 @@ class SearchResultsAdapter(
             is GameSearchResultViewHolder -> holder.bind(
                 gameSearchProvider,
                 mediaPlayerFactory,
-                onGameClicked
+                onGameClicked,
+                lifecycleOwner
             )
             is GameSearchProgressViewHolder -> Unit
         }
@@ -83,20 +87,26 @@ open class SearchResultViewHolder(val layout: View) : RecyclerView.ViewHolder(la
 class GameSearchResultViewHolder(private val binding: GameSearchResultBinding) :
     SearchResultViewHolder(binding.root.rootView) {
     private var player: MediaPlayer? = null
+    private lateinit var searchResults: Result
 
-    fun destroy() {
+    fun viewDetachedFromWindow() = destroy()
+
+    private fun destroy(){
         player?.stop()
         player?.release()
+        searchResults.state = null
     }
 
     fun bind(
         gameSearchProvider: IGameSearchProvider,
         mediaPlayerFactory: MediaPlayerFactory,
-        onGameClicked: (game: Result) -> Unit
+        onGameClicked: (game: Result) -> Unit,
+        lifecycleOwner: LifecycleOwner
     ) {
         try {
-            val searchResults = gameSearchProvider.gameList[adapterPosition]
+            searchResults = gameSearchProvider.gameList[adapterPosition]
 
+            binding.lifecycleOwner = lifecycleOwner
             binding.item = searchResults
             binding.gameName.setOnClickListener {
                 onGameClicked(searchResults)
@@ -110,21 +120,30 @@ class GameSearchResultViewHolder(private val binding: GameSearchResultBinding) :
             Glide.with(layout).load(searchResults.backgroundImage)
                 .transform(CenterCrop(), RoundedCorners(10)).into(binding.image)
 
-            binding.image.setOnClickListener { imageView ->
-                searchResults.clip?.clip?.let {
-                    imageView.visibility = View.INVISIBLE
-                    binding.video.visibility = View.VISIBLE
-                    binding.playVideo.visibility = View.INVISIBLE
+            if (!searchResults.hasVideoContent())
+                return
 
-                    val state = PlayerState()
-                    player = mediaPlayerFactory.getMediaPlayer(binding.video, state)
-                    player?.start(it) {
-                        player?.release()
-                        binding.video.visibility = View.INVISIBLE
-                        imageView.visibility = View.VISIBLE
-                        binding.playVideo.visibility = View.VISIBLE
-                    }
+            val startPlayback = {
+                searchResults.displayVideoMode()
+                searchResults.state?.whenReady = true
+                player =
+                    mediaPlayerFactory.getMediaPlayer(binding.video, searchResults.state!!, true)
+                player?.start(searchResults.clip?.clip ?: "") { cancledByUser ->
+                    if (cancledByUser)
+                        searchResults.state = null
+
+                    player?.release()
+                    searchResults.displayImageMode()
                 }
+            }
+
+            if (searchResults.state != null)
+                startPlayback.invoke()
+
+
+            binding.image.setOnClickListener {
+                searchResults.state = PlayerState()
+                startPlayback.invoke()
             }
 
         } catch (e: Exception) {

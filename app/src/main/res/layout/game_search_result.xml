@@ -168,6 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="#ffffff"
+                android:visibility="@{item.imageVisibility}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -178,7 +179,7 @@
                 android:id="@+id/video"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:visibility="invisible"
+                android:visibility="@{item.videoVisibility}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -192,7 +193,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 android:src="@drawable/ic_play_video"
-                android:visibility="@{item.hasVideoContent}"
+                android:visibility="@{item.playVideoIconVisibility}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/image" />
         </androidx.constraintlayout.widget.ConstraintLayout>

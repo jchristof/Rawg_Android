@@ -9,10 +9,11 @@ class MediaPlayerFactoryImpl(private val context: Context) : MediaPlayerFactory 
 
     override fun getMediaPlayer(
         playerView: PlayerView,
-        playerState: PlayerState
+        playerState: PlayerState,
+        canceledByUser:Boolean
     ): MediaPlayer {
         mediaPlayer?.let{
-            it.stop()
+            it.stop(canceledByUser)
             it.release()
         }
 

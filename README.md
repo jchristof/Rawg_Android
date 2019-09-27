@@ -10,6 +10,7 @@ The app's initial functionality is implemented using:
 * Constraint layout
 * Lifecycle viewmodels
 * Exoplayer
+* Databinding on LiveData
 
 <p align="center">
     <img src="./images/search_portrait.png" width="400">

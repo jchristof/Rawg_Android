@@ -23,24 +23,26 @@ class MediaPlayer(
     private val playerView: PlayerView,
     private val playerState: PlayerState
 ) {
+    var canceledByUser = false
     val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, DefaultTrackSelector())
         .also {
             playerView.player = it
         }
 
-    fun start(clipUrl:String, onFinished:()->Unit) {
+    fun start(clipUrl:String, onFinished:(canceledByUser:Boolean)->Unit) {
+        player.prepare(buildMediaSource(Uri.parse(clipUrl)))
+
         with(playerState) {
             player.playWhenReady = whenReady
             player.seekTo(window, position)
         }
-        // Load media.
-        player.prepare(buildMediaSource(Uri.parse(clipUrl)))
+
         player.addListener(object : Player.EventListener {
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
                // super.onPlayerStateChanged(playWhenReady, playbackState)
 
                 if(playbackState == STATE_ENDED || playbackState == STATE_IDLE) {
-                    onFinished()
+                    onFinished(canceledByUser || playbackState == STATE_ENDED)
                     player.removeListener(this)
                 }
             }
@@ -53,7 +55,8 @@ class MediaPlayer(
         ).createMediaSource(uri)
     }
 
-    fun stop() {
+    fun stop(canceledByUser:Boolean=false) {
+        this.canceledByUser = canceledByUser
         with(player) {
             with(playerState) {
                 position = currentPosition
