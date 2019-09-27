@@ -6,7 +6,7 @@ interface MediaPlayerFactory {
 
     fun getMediaPlayer(
         playerView: PlayerView,
-        playerState: PlayerState,
+        mediaSavedState: MediaSavedState,
         canceledByUser:Boolean = false
     ): MediaPlayer
 

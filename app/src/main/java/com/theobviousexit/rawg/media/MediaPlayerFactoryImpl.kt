@@ -9,7 +9,7 @@ class MediaPlayerFactoryImpl(private val context: Context) : MediaPlayerFactory 
 
     override fun getMediaPlayer(
         playerView: PlayerView,
-        playerState: PlayerState,
+        mediaSavedState: MediaSavedState,
         canceledByUser:Boolean
     ): MediaPlayer {
         mediaPlayer?.let{
@@ -17,7 +17,7 @@ class MediaPlayerFactoryImpl(private val context: Context) : MediaPlayerFactory 
             it.release()
         }
 
-        return MediaPlayer(context, playerView, playerState).apply{
+        return MediaPlayer(context, playerView, mediaSavedState).apply{
             mediaPlayer = this
         }
     }

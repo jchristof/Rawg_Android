@@ -1,10 +1,10 @@
 package com.theobviousexit.rawg
 
 import android.os.Parcelable
-import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
-import com.theobviousexit.rawg.media.PlayerState
+import com.theobviousexit.rawg.media.MediaSavedState
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import retrofit2.http.GET
@@ -40,10 +40,10 @@ data class Result(
     @SerializedName("background_image") val backgroundImage: String = "",
     @SerializedName("metacritic") val metacritic: String? = "",
     @SerializedName("short_screenshots") val shortScreenshots: List<ShortScreenshot> = emptyList(),
-    @SerializedName("platforms") val platforms: List<PlatformObj> = emptyList()
+    @SerializedName("platforms") val platforms: List<PlatformObj>? = null
 
 ) : Parcelable{
-    fun hasPlatform(platform:String) = platforms.mapNotNull { t -> t.platform?.slug }.find { t -> t.contains(platform)} != null
+    fun hasPlatform(platform:String) = platforms?.mapNotNull { t -> t.platform?.slug }?.find { t -> t.contains(platform)} != null
     fun hasVideoContent() = clip?.clip != null
     fun hasMetacriticRating() = metacritic?.isNotBlank() ?: false
 
@@ -64,9 +64,9 @@ data class Result(
     @IgnoredOnParcel
     val videoVisibility = MutableLiveData<Boolean>(false)
     @IgnoredOnParcel
-    val playVideoIconVisibility = MutableLiveData<Boolean>(hasVideoContent())
+    val playVideoIconVisibility:MutableLiveData<Boolean> by lazy{ MutableLiveData<Boolean>(hasVideoContent())}
     @IgnoredOnParcel
-    var state:PlayerState? = null
+    var mediaSavedState:MediaSavedState? = null
 }
 
 @Parcelize

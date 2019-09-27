@@ -12,7 +12,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 
-data class PlayerState(
+data class MediaSavedState(
     var window: Int = 0,
     var position: Long = 0,
     var whenReady: Boolean = true
@@ -21,7 +21,7 @@ data class PlayerState(
 class MediaPlayer(
     private val context: Context,
     private val playerView: PlayerView,
-    private val playerState: PlayerState
+    private val mediaSavedState: MediaSavedState
 ) {
     var canceledByUser = false
     val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, DefaultTrackSelector())
@@ -32,7 +32,7 @@ class MediaPlayer(
     fun start(clipUrl:String, onFinished:(canceledByUser:Boolean)->Unit) {
         player.prepare(buildMediaSource(Uri.parse(clipUrl)))
 
-        with(playerState) {
+        with(mediaSavedState) {
             player.playWhenReady = whenReady
             player.seekTo(window, position)
         }
@@ -58,7 +58,7 @@ class MediaPlayer(
     fun stop(canceledByUser:Boolean=false) {
         this.canceledByUser = canceledByUser
         with(player) {
-            with(playerState) {
+            with(mediaSavedState) {
                 position = currentPosition
                 window = currentWindowIndex
                 whenReady = playWhenReady

@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.theobviousexit.rawg.R
 import com.theobviousexit.rawg.media.MediaPlayer
-import com.theobviousexit.rawg.media.PlayerState
+import com.theobviousexit.rawg.media.MediaSavedState
 import kotlinx.android.synthetic.main.game_detail_fragment.*
 
 class GameDetailFragment : Fragment() {
 
     lateinit var player: MediaPlayer
-    val state = PlayerState()
+    val state = MediaSavedState()
 
     companion object {
         fun newInstance() = GameDetailFragment()

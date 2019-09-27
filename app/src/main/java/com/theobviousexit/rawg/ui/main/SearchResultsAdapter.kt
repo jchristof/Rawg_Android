@@ -4,7 +4,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,7 +15,7 @@ import com.theobviousexit.rawg.Result
 import com.theobviousexit.rawg.databinding.GameSearchResultBinding
 import com.theobviousexit.rawg.media.MediaPlayer
 import com.theobviousexit.rawg.media.MediaPlayerFactory
-import com.theobviousexit.rawg.media.PlayerState
+import com.theobviousexit.rawg.media.MediaSavedState
 
 class SearchResultsAdapter(
     private val gameSearchProvider: IGameSearchProvider,
@@ -94,7 +93,7 @@ class GameSearchResultViewHolder(private val binding: GameSearchResultBinding) :
     private fun destroy(){
         player?.stop()
         player?.release()
-        searchResults.state = null
+        searchResults.mediaSavedState = null
     }
 
     fun bind(
@@ -125,24 +124,24 @@ class GameSearchResultViewHolder(private val binding: GameSearchResultBinding) :
 
             val startPlayback = {
                 searchResults.displayVideoMode()
-                searchResults.state?.whenReady = true
+                searchResults.mediaSavedState?.whenReady = true
                 player =
-                    mediaPlayerFactory.getMediaPlayer(binding.video, searchResults.state!!, true)
+                    mediaPlayerFactory.getMediaPlayer(binding.video, searchResults.mediaSavedState!!, true)
                 player?.start(searchResults.clip?.clip ?: "") { cancledByUser ->
                     if (cancledByUser)
-                        searchResults.state = null
+                        searchResults.mediaSavedState = null
 
                     player?.release()
                     searchResults.displayImageMode()
                 }
             }
 
-            if (searchResults.state != null)
+            if (searchResults.mediaSavedState != null)
                 startPlayback.invoke()
 
 
             binding.image.setOnClickListener {
-                searchResults.state = PlayerState()
+                searchResults.mediaSavedState = MediaSavedState()
                 startPlayback.invoke()
             }
 
