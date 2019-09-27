@@ -21,10 +21,10 @@ class SearchResultsFragment : Fragment() {
 
     private lateinit var recycler: RecyclerView
     private val viewModel by viewModel<SearchViewModel>()
-    private lateinit var searchResultsAdapter:SearchResultsAdapter
+    private lateinit var searchResultsAdapter: SearchResultsAdapter
     private lateinit var mediaPlayerFactory: MediaPlayerFactory
 
-    fun search(query:String){
+    fun search(query: String) {
         viewModel.clear()
         viewModel.search(query, 1, 50)
         recycler.scrollToPosition(0)
@@ -41,8 +41,10 @@ class SearchResultsFragment : Fragment() {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
-    private fun onGameClicked(result:Result){
-        fragmentManager?.beginTransaction()?.replace(R.id.container, GameDetailFragment.newInstance())?.addToBackStack(null)?.commit()
+    private fun onGameClicked(result: Result) {
+        fragmentManager?.beginTransaction()
+            ?.replace(R.id.container, GameDetailFragment.newInstance())?.addToBackStack(null)
+            ?.commit()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -51,7 +53,7 @@ class SearchResultsFragment : Fragment() {
         recycler = activity?.findViewById(R.id.games_recycler) ?: return
         mediaPlayerFactory = MediaPlayerFactoryImpl(context!!)
 
-        when(resources.configuration.orientation != ORIENTATION_PORTRAIT) {
+        when (resources.configuration.orientation != ORIENTATION_PORTRAIT) {
             true -> recycler.layoutManager = LinearLayoutManager(activity)
             false -> recycler.layoutManager = GridLayoutManager(activity, 2)
         }
@@ -59,7 +61,7 @@ class SearchResultsFragment : Fragment() {
         searchResultsAdapter = SearchResultsAdapter(viewModel, mediaPlayerFactory, ::onGameClicked)
         recycler.adapter = searchResultsAdapter
 
-        if(savedInstanceState == null)
+        if (savedInstanceState == null)
             viewModel.bestOfYear()
 
         recycler.addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -76,6 +78,16 @@ class SearchResultsFragment : Fragment() {
                 outRect.right = 4
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mediaPlayerFactory.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayerFactory.pause()
     }
 
     override fun onDestroy() {

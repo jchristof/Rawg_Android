@@ -9,5 +9,8 @@ interface MediaPlayerFactory {
         playerState: PlayerState
     ): MediaPlayer
 
+    fun resume()
+    fun pause()
     fun destroy()
+
 }

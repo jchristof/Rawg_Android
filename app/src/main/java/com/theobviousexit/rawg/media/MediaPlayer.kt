@@ -66,6 +66,14 @@ class MediaPlayer(
         playerView.player = null
     }
 
+    fun pause(){
+        player.playWhenReady = false
+    }
+
+    fun resume(){
+        player.playWhenReady = true
+    }
+
     fun release() {
         player.release()
     }

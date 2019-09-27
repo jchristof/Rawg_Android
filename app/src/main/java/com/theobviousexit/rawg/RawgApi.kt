@@ -34,11 +34,15 @@ data class Result(
     @SerializedName("rating") val rating: String = "",
     @SerializedName("clip") val clip: Clip? = null,
     @SerializedName("background_image") val backgroundImage: String = "",
-    @SerializedName("metacritic") val metacritic: Long = 0,
+    @SerializedName("metacritic") val metacritic: String? = "",
     @SerializedName("short_screenshots") val shortScreenshots: List<ShortScreenshot> = emptyList(),
     @SerializedName("platforms") val platforms: List<PlatformObj> = emptyList()
 
-) : Parcelable
+) : Parcelable{
+    fun hasPlatform(platform:String) = platforms.mapNotNull { t -> t.platform?.slug }.find { t -> t.contains(platform)} != null
+    fun hasVideoContent() = clip?.clip != null
+    fun hasMetacriticRating() = metacritic?.isNotBlank() ?: false
+}
 
 @Parcelize
 data class ShortScreenshot(

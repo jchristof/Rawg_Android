@@ -4,14 +4,6 @@ import android.content.Context
 import com.google.android.exoplayer2.ui.PlayerView
 
 class MediaPlayerFactoryImpl(private val context: Context) : MediaPlayerFactory {
-    override fun destroy() {
-        mediaPlayer?.let{
-            it.stop()
-            it.release()
-        }
-
-        mediaPlayer = null
-    }
 
     private var mediaPlayer:MediaPlayer? = null
 
@@ -27,5 +19,22 @@ class MediaPlayerFactoryImpl(private val context: Context) : MediaPlayerFactory 
         return MediaPlayer(context, playerView, playerState).apply{
             mediaPlayer = this
         }
+    }
+
+    override fun resume() {
+        mediaPlayer?.resume()
+    }
+
+    override fun pause() {
+        mediaPlayer?.pause()
+    }
+
+    override fun destroy() {
+        mediaPlayer?.let{
+            it.stop()
+            it.release()
+        }
+
+        mediaPlayer = null
     }
 }
