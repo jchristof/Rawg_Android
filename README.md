@@ -1,7 +1,8 @@
 # Rawg.io for Android
 
-Quick implementation of the [rawg.io](rawg.io) game database search app for android.
-The app's initial functionality is implemented using:
+Quick implementation of the [rawg.io](rawg.io) game database search app for android to help me prototype Exoplayer video playback. The main activity in the demo manages and enforces single video-at-a-time playpack from multiple sources of content. See it in action [here](http://theobviousexit.com/android/rawg-like-android-with-video-playback/)
+
+The app uses the following libraries:
 
 * Koin
 * Kotlin coroutines
